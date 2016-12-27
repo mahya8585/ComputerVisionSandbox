@@ -1,0 +1,22 @@
+V# IDE
+.idea
+*.iml
+*.iws
+*.ipr
+.project
+.classpath
+.settings
+# mac
+Thumbs.db
+.DS_Store
+#Build
+target
+out
+build
+bin
+.gradle/*
+#File
+*.log
+*.swp
+*.bak
+
