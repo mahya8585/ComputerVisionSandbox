@@ -22,8 +22,8 @@ public class AzureStorageHelper {
     //接続文字列
     private static final String STORAGE_CONNECTION_STRING =
             "DefaultEndpointsProtocol=http;" +
-                    "AccountName=thumnails;" +
-                    "AccountKey=lhSYS0yPvq+MjoQzq366kEcUmUSmRudM2S/63yBhZsGwzThqGVXuQ090y3fU7vFN/MNf9m2QN27Dp49CLFoyuA==";
+                    "AccountName=【your Storage Name】;" +
+                    "AccountKey=【your Storage Key】";
 
     /**
      * ファイルをアップロードする

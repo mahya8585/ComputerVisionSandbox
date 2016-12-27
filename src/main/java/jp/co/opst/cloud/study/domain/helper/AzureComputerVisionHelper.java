@@ -20,7 +20,7 @@ import java.net.URI;
 @Component
 @Slf4j
 public class AzureComputerVisionHelper {
-    private final String API_KEY = "6c075b00dcce43b89145244717a496a6";
+    private final String API_KEY = "【your Computer Vision API KEY】";
     private final String WIDTH = "200";
     private final String HEIGHT = "200";
     private final String SMART_CROPPING = "true";
