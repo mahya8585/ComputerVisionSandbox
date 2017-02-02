@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>処理インデックスページ</title>
+    <meta charset="utf-8"/>
+</head>
+<body>
+
+<p class="function">
+    <h2>静的画像グレースケール処理</h2>
+    <form action="#" enctype="multipart/form-data" method="post" th:action="@{/bwImage/create}" th:object="${bwImageForm}">
+        <input type="file" name="bwTarget" th:field="*{bwTarget}" /><input type="submit"/>
+    </form>
+</p>
+
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>白黒画像作成</title>
+    <meta charset="utf-8"/>
+</head>
+<body>
+
+<h2>静的画像グレースケール処理結果</h2>
+
+<article>
+    <h3>BEFORE</h3>
+    <img th:attr="src=@{${image.before}}" alt=""/>
+</article>
+
+<article>
+    <h3>AFTER</h3>
+    <img th:attr="src=@{${image.after}}" alt=""/>
+</article>
+
+</body>
+</html>
