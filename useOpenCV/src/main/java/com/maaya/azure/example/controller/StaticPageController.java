@@ -1,6 +1,5 @@
 package com.maaya.azure.example.controller;
 
-import com.maaya.azure.example.form.BwImageForm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
