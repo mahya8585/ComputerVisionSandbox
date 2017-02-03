@@ -25,7 +25,7 @@ public class BwImageService {
     //変換ファイルプレフィックス
     private static final String BW_PREFIX = "bw_";
     //作業ファイルパス
-    private static final String BEFORE_TEMP_FILE_PATH = "/static/img/before.jpg";
+    private static final String BEFORE_TEMP_FILE_PATH = "/static/img/sample.jpg";
 
     /**
      * Azureへ画像をアップロードし、画像URLを取得する

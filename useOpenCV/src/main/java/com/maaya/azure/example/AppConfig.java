@@ -1,5 +1,7 @@
 package com.maaya.azure.example;
 
+import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.ConversionService;
@@ -14,9 +16,8 @@ import javax.sql.DataSource;
  * Created by maaya
  */
 @Configuration
+@Data
 public class AppConfig {
-
-    DataSource dataSource;
 
     /**
      * リクエストのエンコーディングをUTF-8にします。
@@ -29,9 +30,6 @@ public class AppConfig {
         return filter;
     }
 
-//    @Bean
-//    public static ConversionService conversionService() {
-//        ConversionService conversionService = new DefaultFormattingConversionService();
-//        return conversionService;
-//    }
+
+
 }

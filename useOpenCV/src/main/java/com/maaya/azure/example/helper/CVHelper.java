@@ -1,6 +1,7 @@
 package com.maaya.azure.example.helper;
 
-import org.springframework.beans.factory.annotation.Value;
+import com.maaya.azure.example.config.CommonConfig;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.net.URISyntaxException;
 
@@ -11,9 +12,8 @@ import static org.bytedeco.javacpp.opencv_imgcodecs.*;
  * Created by 4605851 on 2017/02/01.
  */
 public class CVHelper {
-    //変更前作業ファイル
-    @Value("${cv.tempfile.name}")
-    private static final String TEMP_FILE_NAME = "after.jpg";
+    @Autowired
+    private static CommonConfig commonConfig;
 
     /**
      * グレースケール画像を作成する
@@ -26,8 +26,8 @@ public class CVHelper {
         IplImage grayScaleImage = cvLoadImage(targetPath, CV_LOAD_IMAGE_GRAYSCALE);
 
         if (grayScaleImage != null) {
-            cvSaveImage(TEMP_FILE_NAME, grayScaleImage);
-            return TEMP_FILE_NAME;
+            cvSaveImage(commonConfig.getTempFileName(), grayScaleImage);
+            return commonConfig.getTempFileName();
         }
 
         return null;

@@ -1,11 +1,16 @@
 package com.maaya.azure.example.helper;
 
+import com.maaya.azure.example.AppConfig;
+import com.maaya.azure.example.config.CommonConfig;
 import com.microsoft.azure.storage.CloudStorageAccount;
 import com.microsoft.azure.storage.StorageException;
 import com.microsoft.azure.storage.blob.CloudBlobClient;
 import com.microsoft.azure.storage.blob.CloudBlobContainer;
 import com.microsoft.azure.storage.blob.CloudBlockBlob;
+import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -20,20 +25,9 @@ import java.util.Set;
  */
 @Component
 public class AzureStorageHelper {
-    //Azure account name
-    @Value("${azure.storage.account.name}")
-    private static String ACCOUNT_NAME;
-    //Azure account key
-    @Value("${azure.storage.account.key}")
-    private static String ACCOUNT_KEY;
+    @Autowired
+    private static CommonConfig commonConfig;
 
-    //接続文字列
-    private static final String STORAGE_CONNECTION_STRING =
-            "DefaultEndpointsProtocol=http;" + "AccountName=" + ACCOUNT_NAME + ";" + "AccountKey=" + ACCOUNT_KEY;
-
-    //コンテナー名
-    @Value("${azure.storage.container}")
-    private static String CONTAINER;
 
     /**
      * ファイルをアップロードする
@@ -109,7 +103,7 @@ public class AzureStorageHelper {
         CloudBlobClient blobClient = storageAccount.createCloudBlobClient();
 
         // Retrieve reference to a previously created container.
-        return blobClient.getContainerReference(CONTAINER);
+        return blobClient.getContainerReference(commonConfig.getContainer());
     }
 
     /**
@@ -120,7 +114,7 @@ public class AzureStorageHelper {
      * @throws InvalidKeyException
      */
     private static CloudStorageAccount createStorageAccount() throws URISyntaxException, InvalidKeyException {
-        return CloudStorageAccount.parse(STORAGE_CONNECTION_STRING);
+        return CloudStorageAccount.parse("DefaultEndpointsProtocol=http;" + "AccountName=" + commonConfig.getAccountName() + ";" + "AccountKey=" + commonConfig.getAccountKey());
     }
 
 }
