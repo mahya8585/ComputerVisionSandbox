@@ -1,16 +1,11 @@
 package com.maaya.azure.example.helper;
 
-import com.maaya.azure.example.AppConfig;
-import com.maaya.azure.example.config.CommonConfig;
 import com.microsoft.azure.storage.CloudStorageAccount;
 import com.microsoft.azure.storage.StorageException;
 import com.microsoft.azure.storage.blob.CloudBlobClient;
 import com.microsoft.azure.storage.blob.CloudBlobContainer;
 import com.microsoft.azure.storage.blob.CloudBlockBlob;
-import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -25,8 +20,15 @@ import java.util.Set;
  */
 @Component
 public class AzureStorageHelper {
-    @Autowired
-    private static CommonConfig commonConfig;
+    //Azure account name
+    @Value("${azure.storage.account.name}")
+    private String ACCOUNT_NAME;
+    //Azure account key
+    @Value("${azure.storage.account.key}")
+    private String ACCOUNT_KEY;
+    //コンテナー名
+    @Value("${azure.storage.container}")
+    private String CONTAINER;
 
 
     /**
@@ -40,7 +42,7 @@ public class AzureStorageHelper {
      * @throws StorageException
      * @throws IOException
      */
-    public static void upload(InputStream target, String fileName, int length) throws URISyntaxException, InvalidKeyException, StorageException, IOException {
+    public void upload(InputStream target, String fileName, int length) throws URISyntaxException, InvalidKeyException, StorageException, IOException {
         // BLOBを配置するコンテナーの設定.
         CloudBlobContainer container = createCloudBlobContainer();
 
@@ -58,7 +60,7 @@ public class AzureStorageHelper {
      * @throws InvalidKeyException
      * @throws StorageException
      */
-    public static Set<String> selectAll() throws URISyntaxException, InvalidKeyException, StorageException {
+    public Set<String> selectAll() throws URISyntaxException, InvalidKeyException, StorageException {
         // BLOBを配置するコンテナーの設定.
         CloudBlobContainer container = createCloudBlobContainer();
 
@@ -78,7 +80,7 @@ public class AzureStorageHelper {
      * @throws InvalidKeyException
      * @throws URISyntaxException
      */
-    public static String selectBlobUrl(String blobName) throws StorageException, InvalidKeyException, URISyntaxException {
+    public String selectBlobUrl(String blobName) throws StorageException, InvalidKeyException, URISyntaxException {
         //コンテナーの設定
         CloudBlobContainer container = createCloudBlobContainer();
 
@@ -95,7 +97,7 @@ public class AzureStorageHelper {
      * @throws StorageException
      * @throws InvalidKeyException
      */
-    private static CloudBlobContainer createCloudBlobContainer() throws URISyntaxException, StorageException, InvalidKeyException {
+    private CloudBlobContainer createCloudBlobContainer() throws URISyntaxException, StorageException, InvalidKeyException {
         // Retrieve storage account from connection-string.
         CloudStorageAccount storageAccount = createStorageAccount();
 
@@ -103,7 +105,7 @@ public class AzureStorageHelper {
         CloudBlobClient blobClient = storageAccount.createCloudBlobClient();
 
         // Retrieve reference to a previously created container.
-        return blobClient.getContainerReference(commonConfig.getContainer());
+        return blobClient.getContainerReference(CONTAINER);
     }
 
     /**
@@ -113,8 +115,8 @@ public class AzureStorageHelper {
      * @throws URISyntaxException
      * @throws InvalidKeyException
      */
-    private static CloudStorageAccount createStorageAccount() throws URISyntaxException, InvalidKeyException {
-        return CloudStorageAccount.parse("DefaultEndpointsProtocol=http;" + "AccountName=" + commonConfig.getAccountName() + ";" + "AccountKey=" + commonConfig.getAccountKey());
+    private CloudStorageAccount createStorageAccount() throws URISyntaxException, InvalidKeyException {
+        return CloudStorageAccount.parse("DefaultEndpointsProtocol=http;" + "AccountName=" + ACCOUNT_NAME + ";" + "AccountKey=" + ACCOUNT_KEY);
     }
 
 }
