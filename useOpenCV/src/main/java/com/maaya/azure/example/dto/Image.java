@@ -7,10 +7,14 @@ import lombok.Data;
  */
 @Data
 public class Image {
-    /** 変更前画像のURL */
+    /**
+     * 変更前画像のURL
+     */
     private String before;
 
-    /** 変更後画像のURL */
+    /**
+     * 変更後画像のURL
+     */
     private String after;
 
     public Image(String beforeUrl, String afterUrl) {

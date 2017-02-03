@@ -18,6 +18,7 @@ public class StaticPageController {
 
     /**
      * 各処理を発動させるための一覧ページ表示
+     *
      * @param model
      * @return
      */

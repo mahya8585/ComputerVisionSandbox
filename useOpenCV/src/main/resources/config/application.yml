@@ -1,0 +1,9 @@
+azure:
+    storage:
+        account:
+            name: your account name
+            key: your account key
+        container: your container name
+cv:
+    tempfile:
+        name: temp.jpg

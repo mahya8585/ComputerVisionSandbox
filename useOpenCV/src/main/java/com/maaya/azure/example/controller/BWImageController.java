@@ -1,8 +1,5 @@
 package com.maaya.azure.example.controller;
 
-import com.maaya.azure.example.dto.Image;
-import com.maaya.azure.example.helper.AzureComputerVisionHelper;
-import com.maaya.azure.example.helper.AzureStorageHelper;
 import com.maaya.azure.example.service.BwImageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +22,6 @@ public class BWImageController {
 
     @Autowired
     private BwImageService bwImageService;
-//    @Autowired
-//    private AzureComputerVisionHelper azureComputerVisionHelper;
-
 
     /**
      * 画像グレースケール化処理
@@ -43,11 +37,10 @@ public class BWImageController {
 
         try {
             //元画像URL取得
-            String  beforeUrl = bwImageService.makeSourceImageUrl(bwTarget);
+            String beforeUrl = bwImageService.makeSourceImageUrl(bwTarget);
 
             //グレースケール画像取得
-            //TODO multipartをfile化
-            String afterUrl = bwImageService.makeBWImageUrl(beforeUrl, bwTarget.getOriginalFilename());
+            String afterUrl = bwImageService.makeBWImageUrl(bwTarget, bwTarget.getOriginalFilename());
 
             //表示用Modelの作成
             model = bwImageService.makeResultModel(model, beforeUrl, afterUrl);

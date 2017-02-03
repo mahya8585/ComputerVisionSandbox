@@ -1,47 +1,36 @@
 package com.maaya.azure.example.helper;
 
-import java.net.URISyntaxException;
-import java.nio.file.Paths;
+import org.springframework.beans.factory.annotation.Value;
 
-import static org.bytedeco.javacpp.opencv_core.*;
+import java.net.URISyntaxException;
+
+import static org.bytedeco.javacpp.opencv_core.IplImage;
 import static org.bytedeco.javacpp.opencv_imgcodecs.*;
 
 /**
  * Created by 4605851 on 2017/02/01.
  */
 public class CVHelper {
+    //変更前作業ファイル
+    @Value("${cv.tempfile.name}")
+    private static final String TEMP_FILE_NAME = "after.jpg";
 
     /**
      * グレースケール画像を作成する
-     * @param targetUrl
-     * @param grayScaleFileName
+     *
+     * @param targetPath
      * @return
      * @throws URISyntaxException
      */
-    public static String makeGrayScaleImage(String targetUrl, String grayScaleFileName) throws URISyntaxException {
-        //TODO
-        //String grayScaleFilePath = makeTempFile(grayScaleFileName);
-        String filepath = Paths.get(CVHelper.class.getResource("/sample.jpg").toURI()).toString();
+    public static String makeGrayScaleImage(String targetPath) throws URISyntaxException {
+        IplImage grayScaleImage = cvLoadImage(targetPath, CV_LOAD_IMAGE_GRAYSCALE);
 
-        //IplImage grayScaleImage = cvLoadImage(targetUrl, CV_LOAD_IMAGE_GRAYSCALE);
-        IplImage grayScaleImage = cvLoadImage(filepath, CV_LOAD_IMAGE_GRAYSCALE);
         if (grayScaleImage != null) {
-            //cvSaveImage(grayScaleFilePath, grayScaleImage);
-            cvSaveImage("test.jpg", grayScaleImage);
-            return grayScaleFileName;
+            cvSaveImage(TEMP_FILE_NAME, grayScaleImage);
+            return TEMP_FILE_NAME;
         }
 
         return null;
     }
 
-    /**
-     * ファイルパスの作成(ローカル)
-     * @param fileName
-     * @return
-     * @throws URISyntaxException
-     */
-    private static String makeTempFile(String fileName) throws URISyntaxException {
-        //TODO File処理Helperを作成し移動する
-        return Paths.get(CVHelper.class.getResource("/" + fileName).toURI()).toString();
-    }
 }
