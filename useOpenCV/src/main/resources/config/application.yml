@@ -1,9 +1,12 @@
 azure:
     storage:
         account:
-            name: your account name
-            key: your account key
-        container: your container name
+            name: maayasandbox
+            key: 0MJqr4ADwBPBg/ilsnz7k+hlAIdaszl5dlrZiwtMMB2H3uqJxt4AE4BkM5gP/+wDnpujLHDRzHJUwo9KsNJd/g==
+        container: azurestudy
 cv:
     tempfile:
-        name: temp.jpg
+        dir: /static/img/
+        before: sample.jpg
+        after: temp_after.jpg
+

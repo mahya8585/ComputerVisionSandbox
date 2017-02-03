@@ -6,6 +6,8 @@ import com.maaya.azure.example.helper.CVHelper;
 import com.microsoft.azure.storage.StorageException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,7 +27,15 @@ public class BwImageService {
     //変換ファイルプレフィックス
     private static final String BW_PREFIX = "bw_";
     //作業ファイルパス
-    private static final String BEFORE_TEMP_FILE_PATH = "/static/img/sample.jpg";
+    @Value("${cv.tempfile.dir}")
+    private String TEMP_FILE_DIR;
+    @Value("${cv.tempfile.before}")
+    private String BEFORE_TEMP_FILE;
+
+    @Autowired
+    private AzureStorageHelper azureStorageHelper;
+    @Autowired
+    private CVHelper cvHelper;
 
     /**
      * Azureへ画像をアップロードし、画像URLを取得する
@@ -41,38 +51,37 @@ public class BwImageService {
         final String originalFileName = target.getOriginalFilename();
 
         //fileをBLOBへアップロード
-        AzureStorageHelper.upload(target.getInputStream(), originalFileName, target.getBytes().length);
+        azureStorageHelper.upload(target.getInputStream(), originalFileName, target.getBytes().length);
 
         //URL取得
-        return AzureStorageHelper.selectBlobUrl(originalFileName);
+        return azureStorageHelper.selectBlobUrl(originalFileName);
     }
 
-    /**
-     * 白黒画像を作成、AzureblobへアップロードしURLを取得する
-     *
-     * @param sourceFile
-     * @param fileName
-     * @return
-     */
-    public String makeBWImageUrl(MultipartFile sourceFile, String fileName) throws URISyntaxException, IOException, StorageException, InvalidKeyException {
-        //multi-Part file をfile化
-        String tempFilePath = Paths.get(CVHelper.class.getResource(BEFORE_TEMP_FILE_PATH).toURI()).toString();
-        convertMultipartToFile(sourceFile, tempFilePath);
-
-        String bwImagePath = CVHelper.makeGrayScaleImage(tempFilePath);
-        if(StringUtils.isEmpty(bwImagePath)) {
-            throw new IOException("グレースケール画像作成失敗");
-        }
-
-        //fileをBLOBへアップロード
-        //TODO ファイルパスを正しいものに変更
-        File bwFile = new File(bwImagePath);
-        FileInputStream bwInputStream = new FileInputStream(bwFile);
-        AzureStorageHelper.upload(bwInputStream, BW_PREFIX + fileName, bwInputStream.available());
-
-        //URL取得
-        return AzureStorageHelper.selectBlobUrl(fileName);
-    }
+//    /**
+//     * 白黒画像を作成、AzureblobへアップロードしURLを取得する
+//     *
+//     * @param sourceFile
+//     * @param fileName
+//     * @return
+//     */
+//    public String makeBWImageUrl(MultipartFile sourceFile, String fileName) throws Exception {
+//        //multi-Part file をfile化
+//        String tempFilePath = Paths.get(CVHelper.class.getResource(TEMP_FILE_DIR + BEFORE_TEMP_FILE).toURI()).toString();
+//        convertMultipartToFile(sourceFile, tempFilePath);
+//
+//        String bwImagePath = cvHelper.makeGrayScaleImage(tempFilePath);
+//        if(StringUtils.isEmpty(bwImagePath)) {
+//            throw new IOException("グレースケール画像作成失敗");
+//        }
+//
+//        //fileをBLOBへアップロード
+//        File bwFile = new File(bwImagePath);
+//        FileInputStream bwInputStream = new FileInputStream(bwFile);
+//        azureStorageHelper.upload(bwInputStream, BW_PREFIX + fileName, bwInputStream.available());
+//
+//        //URL取得
+//        return azureStorageHelper.selectBlobUrl(fileName);
+//    }
 
     /**
      * 処理結果を表示用モデルに設定する

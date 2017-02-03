@@ -40,10 +40,10 @@ public class BWImageController {
             String beforeUrl = bwImageService.makeSourceImageUrl(bwTarget);
 
             //グレースケール画像取得
-            String afterUrl = bwImageService.makeBWImageUrl(bwTarget, bwTarget.getOriginalFilename());
+            //String afterUrl = bwImageService.makeBWImageUrl(bwTarget, bwTarget.getOriginalFilename());
 
             //表示用Modelの作成
-            model = bwImageService.makeResultModel(model, beforeUrl, afterUrl);
+            //model = bwImageService.makeResultModel(model, beforeUrl, afterUrl);
         } catch (Exception e) {
             e.printStackTrace();
         }
