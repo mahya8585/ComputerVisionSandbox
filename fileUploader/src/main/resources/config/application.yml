@@ -1,0 +1,6 @@
+logging:
+  file: ./webapps/ROOT/log.log
+  level:
+    root: INFO
+response:
+  messages: なるほどー, ウケるw, へぇー, そうなんだー

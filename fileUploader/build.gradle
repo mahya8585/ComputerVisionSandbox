@@ -1,0 +1,61 @@
+group 'jp.co.opst.cloud.study'
+
+
+apply plugin: 'java'
+apply plugin: 'spring-boot'
+apply plugin: 'idea'
+apply plugin: 'war'
+
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.4.2.RELEASE'
+    }
+}
+
+war {
+    baseName = 'cloudStudy'
+    manifest {
+        attributes 'Main-Class': 'jp.co.opst.cloud.study'
+    }
+}
+
+idea {
+    module {
+        inheritOutputDirs = false
+        outputDir = file("$buildDir/classes/main/")
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    providedRuntime
+}
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-web:1.4.2.RELEASE'
+    compile 'org.springframework.boot:spring-boot-starter-thymeleaf:1.4.2.RELEASE'
+    compile 'org.projectlombok:lombok:1.16.10'
+    compile 'com.microsoft.azure:azure-storage:4.0.0'
+    compile 'org.apache.httpcomponents:httpclient:4.5.2'
+    compile 'commons-io:commons-io:2.5'
+
+    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+
+    testCompile 'junit:junit:4.11'
+    testCompile 'org.springframework:spring-test:2.5'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.12'
+}
