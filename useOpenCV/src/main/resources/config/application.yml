@@ -1,9 +1,11 @@
 azure:
     storage:
         account:
-            name: maayasandbox
-            key: 0MJqr4ADwBPBg/ilsnz7k+hlAIdaszl5dlrZiwtMMB2H3uqJxt4AE4BkM5gP/+wDnpujLHDRzHJUwo9KsNJd/g==
-        container: azurestudy
+            name: your storage account name
+            key: your storage key
+        container: your container name
+    computerVision:
+        key: your computervision api key
 cv:
     tempfile:
         dir: /static/img/

@@ -40,6 +40,7 @@ public class AdultJudgmentController {
 
             //TODO アップロードしたファイルからComputer Vision結果を取得する
 
+
             //TODO 取得結果の整形
 
 
