@@ -48,6 +48,7 @@ dependencies {
 	compile ('com.microsoft.azure:azure-storage:4.0.0')
 	compile ('org.apache.httpcomponents:httpclient')
 	compile ('commons-io:commons-io:2.5')
+	compile ('com.google.code.gson:gson')
 
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
