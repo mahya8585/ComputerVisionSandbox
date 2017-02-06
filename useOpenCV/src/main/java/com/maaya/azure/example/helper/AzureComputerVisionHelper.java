@@ -69,7 +69,7 @@ public class AzureComputerVisionHelper {
 
             if (entity != null) {
                 //TODO 表示に必要なデータのdtoしか作成していないので、表示に必要なデータがあればdtoに項目を追加してください
-
+                //TODO DTOで返却する
 
                 return EntityUtils.toString(entity);
             }
