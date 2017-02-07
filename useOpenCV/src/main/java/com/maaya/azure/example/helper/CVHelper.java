@@ -38,7 +38,7 @@ public class CVHelper {
             //String tempFile = Paths.get(tempFileDir, TEMP_FILE_NAME).toString();
             cvSaveImage(TEMP_FILE_NAME, grayScaleImage);
 
-            return  Paths.get(CVHelper.class.getResource(TEMP_FILE_DIR + TEMP_FILE_NAME).toURI()).getParent().getParent().getParent().toString();
+            return Paths.get(CVHelper.class.getResource(TEMP_FILE_DIR + TEMP_FILE_NAME).toURI()).getParent().getParent().getParent().toString();
         }
         return null;
     }

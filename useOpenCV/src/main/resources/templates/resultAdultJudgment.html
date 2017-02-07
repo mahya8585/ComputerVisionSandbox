@@ -8,15 +8,21 @@
 <body>
 
 <h2>アダルト画像判定結果</h2>
+<h2 th:text="${display.result}"></h2>
 
 <article>
-    <h3>BEFORE</h3>
-    <img th:attr="src=@{${image.before}}" alt=""/>
+    <h3>対象画像</h3>
+    <img th:attr="src=@{${display.imgUrl}}" alt=""/>
 </article>
 
 <article>
-    <h3>AFTER</h3>
-    <img th:attr="src=@{${image.after}}" alt=""/>
+    <h3>18禁スコア</h3>
+    <span th:text="${display.adultScore}"></span>
+</article>
+
+<article>
+    <h3>きわどいスコア</h3>
+    <span th:text="${display.racyScore}"></span>
 </article>
 
 </body>

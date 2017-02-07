@@ -1,18 +1,21 @@
 package com.maaya.azure.example.service;
 
-import com.maaya.azure.example.dto.Image;
+import com.maaya.azure.example.dto.Display;
+import com.maaya.azure.example.dto.computerVision.Adult;
+import com.maaya.azure.example.dto.computerVision.AnalyzeImage;
+import com.maaya.azure.example.helper.AzureComputerVisionHelper;
 import com.maaya.azure.example.helper.AzureStorageHelper;
 import com.microsoft.azure.storage.StorageException;
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 4605851 on 2017/02/03.
@@ -21,6 +24,8 @@ import java.security.InvalidKeyException;
 public class AdultJudgmentService {
     @Autowired
     private AzureStorageHelper azureStorageHelper;
+    @Autowired
+    private AzureComputerVisionHelper azureComputerVisionHelper;
 
     /**
      * Azureへ画像をアップロードし、画像URLを取得する
@@ -43,30 +48,60 @@ public class AdultJudgmentService {
     }
 
     /**
+     * アダルト検知処理を行う
+     * @param targetImageUrl
+     * @return
+     * @throws IOException
+     * @throws URISyntaxException
+     */
+    public AnalyzeImage detectAdult(String targetImageUrl) throws IOException, URISyntaxException {
+        List<AzureComputerVisionHelper.VisualFeature> visualFeatures = new ArrayList<>();
+        visualFeatures.add(AzureComputerVisionHelper.VisualFeature.ADULT);
+
+        return azureComputerVisionHelper.analyzeImage(targetImageUrl, AzureComputerVisionHelper.Language.EN, visualFeatures);
+    }
+
+    /**
      * 処理結果を表示用モデルに設定する
      *
      * @param model
-     * @param beforeUri
-     * @param afterUri
+     * @param analyzeResult
+     * @param imgUrl
      * @return
      */
-    public Model makeResultModel(Model model, String beforeUri, String afterUri) {
-        Image image = new Image(beforeUri, afterUri);
-        model.addAttribute("image", image);
+    public Model makeResultModel(Model model, AnalyzeImage analyzeResult, String imgUrl) {
+        Display responseDisplay = new Display();
+        responseDisplay.setImgUrl(imgUrl);
+
+        Adult analyzeAdultInfo = analyzeResult.getAdult();
+        responseDisplay.setAdultScore(analyzeAdultInfo.getAdultScore());
+        responseDisplay.setRacyScore(analyzeAdultInfo.getRacyScore());
+
+        //解析結果の判定
+        //TODO 精緻にやりたい場合はスコアから判定するべし
+        responseDisplay.setResult(makeResultStr(analyzeAdultInfo.getIsAdultContent(), analyzeAdultInfo.getIsRacyContent()));
+
+        model.addAttribute("display", responseDisplay);
 
         return model;
     }
 
     /**
-     * 実ファイルの作成
-     *
-     * @param multipartFile
-     * @param filePath
-     * @throws IOException
+     * 表示する結果文言の作成
+     * @param isAdult
+     * @param isRacy
+     * @return
      */
-    private void convertMultipartToFile(MultipartFile multipartFile, String filePath) throws IOException {
-        File source = new File(filePath);
-        FileUtils.copyInputStreamToFile(multipartFile.getInputStream(), source);
+    private String makeResultStr(boolean isAdult, boolean isRacy) {
+        if (isAdult) {
+            return "この画像は18禁です! 見ちゃダメ!";
+
+        } else if (isRacy) {
+            return "この画像はきわどい写真です! 気を付けて!";
+
+        } else {
+            return "この画像は健全な写真です。";
+        }
     }
 
 }

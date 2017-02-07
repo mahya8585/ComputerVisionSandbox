@@ -1,5 +1,6 @@
 package com.maaya.azure.example.controller;
 
+import com.maaya.azure.example.dto.computerVision.AnalyzeImage;
 import com.maaya.azure.example.service.AdultJudgmentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,11 +39,11 @@ public class AdultJudgmentController {
             //送付された画像をBLOBへアップロード
             String sourceUrl = adultJudgmentService.makeSourceImageUrl(adultTarget);
 
-            //TODO アップロードしたファイルからComputer Vision結果を取得する
+            //アップロードしたファイルからComputer Vision結果を取得する
+            AnalyzeImage adultDetection = adultJudgmentService.detectAdult(sourceUrl);
 
-
-            //TODO 取得結果の整形
-
+            //取得結果の整形
+            model = adultJudgmentService.makeResultModel(model, adultDetection, sourceUrl);
 
         } catch (Exception e) {
             e.printStackTrace();
