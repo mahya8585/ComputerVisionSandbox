@@ -10,8 +10,12 @@
 <p class="function">
 <h2>画像アダルト判定</h2>
 <form action="#" enctype="multipart/form-data" method="post" th:action="@{/adult/judgment}" th:object="${adultForm}">
-    <input type="file" name="adultTarget" th:field="*{adultTarget}" /><br/>
-    <input type="text" name="adultTargetUrl" th:field="*{targetUrl}" /><br/>
+    <div>
+        ローカル：<input type="file" name="adultTarget" th:field="*{adultTarget}" />
+    </div>
+    <div>
+        URL：<input type="text" name="adultTargetUrl" th:field="*{targetUrl}" />
+    </div>
     <input type="submit"/>
 </form>
 </p>

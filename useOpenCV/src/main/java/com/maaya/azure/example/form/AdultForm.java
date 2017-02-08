@@ -9,4 +9,5 @@ import org.springframework.web.multipart.MultipartFile;
 @Data
 public class AdultForm {
     private MultipartFile adultTarget;
+    private String targetUrl;
 }
