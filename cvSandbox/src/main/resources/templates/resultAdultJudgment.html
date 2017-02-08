@@ -4,6 +4,14 @@
 <head>
     <title>アダルト画像判定</title>
     <meta charset="utf-8"/>
+
+    <script type="text/javascript">
+
+        function returnIndex() {
+            document.location.href = '/';
+        }
+
+    </script>
 </head>
 <body>
 
@@ -24,6 +32,10 @@
     <h3>きわどいスコア</h3>
     <span th:text="${display.racyScore}"></span>
 </article>
+
+<p>
+    <button type="button" onclick="returnIndex();">再実験する</button>
+</p>
 
 </body>
 </html>
