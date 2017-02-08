@@ -5,6 +5,11 @@
     <title>アダルト画像判定</title>
     <meta charset="utf-8"/>
 
+    <style type="text/css">
+        .displayTarget {
+            width: 35%;
+        }
+    </style>
     <script type="text/javascript">
 
         function returnIndex() {
@@ -20,7 +25,7 @@
 
 <article>
     <h3>対象画像</h3>
-    <img th:attr="src=@{${display.imgUrl}}" alt=""/>
+    <img th:attr="src=@{${display.imgUrl}}" alt="" class="displayTarget"/>
 </article>
 
 <article>
