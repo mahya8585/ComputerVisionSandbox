@@ -6,6 +6,7 @@ import com.maaya.azure.example.dto.computerVision.AnalyzeImage;
 import com.maaya.azure.example.helper.AzureComputerVisionHelper;
 import com.maaya.azure.example.helper.AzureStorageHelper;
 import com.microsoft.azure.storage.StorageException;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
@@ -31,20 +32,26 @@ public class AdultJudgmentService {
      * Azureへ画像をアップロードし、画像URLを取得する
      *
      * @param target
+     * @param targetUrl
      * @return
      * @throws IOException
      * @throws InvalidKeyException
      * @throws StorageException
      * @throws URISyntaxException
      */
-    public String makeSourceImageUrl(MultipartFile target) throws IOException, InvalidKeyException, StorageException, URISyntaxException {
-        final String originalFileName = target.getOriginalFilename();
+    public String makeSourceImageUrl(MultipartFile target, String targetUrl) throws IOException, InvalidKeyException, StorageException, URISyntaxException {
+        //URLが設定されていなかった場合はファイルアップロードを行う
+        if (StringUtils.isEmpty(targetUrl)) {
+            final String originalFileName = target.getOriginalFilename();
+            //fileをBLOBへアップロード
+            azureStorageHelper.upload(target.getInputStream(), originalFileName, target.getBytes().length);
 
-        //fileをBLOBへアップロード
-        azureStorageHelper.upload(target.getInputStream(), originalFileName, target.getBytes().length);
+            //URL取得
+            return azureStorageHelper.selectBlobUrl(originalFileName);
 
-        //URL取得
-        return azureStorageHelper.selectBlobUrl(originalFileName);
+        } else {
+            return targetUrl;
+        }
     }
 
     /**

@@ -27,17 +27,18 @@ public class AdultJudgmentController {
      * アダルト写真判定処理
      *
      * @param adultTarget
+     * @param targetUrl
      * @param model
      * @return
      */
     @RequestMapping(value = "/judgment", method = RequestMethod.POST)
-    public String judgeAdult(@RequestParam MultipartFile adultTarget, Model model) {
+    public String judgeAdult(@RequestParam MultipartFile adultTarget, String targetUrl, Model model) {
         //TODO Azure Comuputer Visionはファイルサイズが4MBまでなので、ファイルサイズのチェック処理を追加する
         //TODO 拡張子チェックなどのバリデーションも作成する必要あり
 
         try {
             //送付された画像をBLOBへアップロード
-            String sourceUrl = adultJudgmentService.makeSourceImageUrl(adultTarget);
+            String sourceUrl = adultJudgmentService.makeSourceImageUrl(adultTarget, targetUrl);
 
             //アップロードしたファイルからComputer Vision結果を取得する
             AnalyzeImage adultDetection = adultJudgmentService.detectAdult(sourceUrl);
