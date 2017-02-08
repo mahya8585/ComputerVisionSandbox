@@ -6,9 +6,8 @@ azure:
         container: your container name
     computerVision:
         key: your computer vision key
-cv:
-    tempfile:
-        dir: /static/img/
-        before: sample.jpg
-        after: temp_after.jpg
+response:
+    imgUrl:
+        adult: image URL when it was judged an adult
+        racy: image URL when it was judged a racy
 

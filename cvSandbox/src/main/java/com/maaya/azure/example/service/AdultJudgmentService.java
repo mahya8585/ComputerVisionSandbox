@@ -1,5 +1,7 @@
 package com.maaya.azure.example.service;
 
+import com.google.gson.Gson;
+import com.maaya.azure.example.dto.ApiResponse;
 import com.maaya.azure.example.dto.Display;
 import com.maaya.azure.example.dto.computerVision.Adult;
 import com.maaya.azure.example.dto.computerVision.AnalyzeImage;
@@ -8,6 +10,7 @@ import com.maaya.azure.example.helper.AzureStorageHelper;
 import com.microsoft.azure.storage.StorageException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,6 +30,11 @@ public class AdultJudgmentService {
     private AzureStorageHelper azureStorageHelper;
     @Autowired
     private AzureComputerVisionHelper azureComputerVisionHelper;
+
+    @Value("${response.imgUrl.adult}")
+    private String responseAdultImgUrl;
+    @Value("${response.imgUrl.racy}")
+    private String responseRacyImgUrl;
 
     /**
      * Azureへ画像をアップロードし、画像URLを取得する
@@ -89,8 +97,27 @@ public class AdultJudgmentService {
         responseDisplay.setResult(makeResultStr(analyzeAdultInfo.getIsAdultContent(), analyzeAdultInfo.getIsRacyContent()));
 
         model.addAttribute("display", responseDisplay);
-
         return model;
+    }
+
+    /**
+     * API用返却値の作成
+     * @param analyzeResult
+     * @param imgUrl
+     * @return
+     */
+    public String makeApiResponse(AnalyzeImage analyzeResult, String imgUrl) {
+        ApiResponse res = new ApiResponse();
+        res.setSourceImgUrl(imgUrl);
+
+        Adult analyzeAdultInfo = analyzeResult.getAdult();
+        res.setAdultScore(analyzeAdultInfo.getAdultScore());
+        res.setRacyScore(analyzeAdultInfo.getRacyScore());
+
+        res.setResultImgUrl(makeResultStr(analyzeAdultInfo.getIsAdultContent(), analyzeAdultInfo.getIsRacyContent()));
+
+        Gson gson = new Gson();
+        return gson.toJson(res);
     }
 
     /**
@@ -100,6 +127,24 @@ public class AdultJudgmentService {
      * @return
      */
     private String makeResultStr(boolean isAdult, boolean isRacy) {
+        if (isAdult) {
+            return responseAdultImgUrl;
+
+        } else if (isRacy) {
+            return responseRacyImgUrl;
+
+        } else {
+            return "";
+        }
+    }
+
+    /**
+     * 返却するイメージURLの作成
+     * @param isAdult
+     * @param isRacy
+     * @return
+     */
+    private String makeResultImgUrl(boolean isAdult, boolean isRacy) {
         if (isAdult) {
             return "この画像は18禁です! 見ちゃダメ!";
 
