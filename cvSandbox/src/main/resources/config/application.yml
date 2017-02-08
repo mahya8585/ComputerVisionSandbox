@@ -1,11 +1,11 @@
 azure:
     storage:
         account:
-            name: your storage account name
-            key: your storage key
+            name: your account name
+            key: your account key
         container: your container name
     computerVision:
-        key: your computervision api key
+        key: your computer vision key
 cv:
     tempfile:
         dir: /static/img/
