@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Display {
+public class AzureDisplay {
     /**
      * 変更前画像のURL
      */

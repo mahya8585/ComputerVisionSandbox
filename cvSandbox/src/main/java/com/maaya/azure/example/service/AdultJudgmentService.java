@@ -2,7 +2,7 @@ package com.maaya.azure.example.service;
 
 import com.google.gson.Gson;
 import com.maaya.azure.example.dto.ApiResponse;
-import com.maaya.azure.example.dto.Display;
+import com.maaya.azure.example.dto.AzureDisplay;
 import com.maaya.azure.example.dto.computerVision.Adult;
 import com.maaya.azure.example.dto.computerVision.AnalyzeImage;
 import com.maaya.azure.example.helper.AzureComputerVisionHelper;
@@ -85,18 +85,18 @@ public class AdultJudgmentService {
      * @return
      */
     public Model makeResultModel(Model model, AnalyzeImage analyzeResult, String imgUrl) {
-        Display responseDisplay = new Display();
-        responseDisplay.setImgUrl(imgUrl);
+        AzureDisplay responseAzureDisplay = new AzureDisplay();
+        responseAzureDisplay.setImgUrl(imgUrl);
 
         Adult analyzeAdultInfo = analyzeResult.getAdult();
-        responseDisplay.setAdultScore(analyzeAdultInfo.getAdultScore());
-        responseDisplay.setRacyScore(analyzeAdultInfo.getRacyScore());
+        responseAzureDisplay.setAdultScore(analyzeAdultInfo.getAdultScore());
+        responseAzureDisplay.setRacyScore(analyzeAdultInfo.getRacyScore());
 
         //解析結果の判定
         //TODO 精緻にやりたい場合はスコアから判定するべし
-        responseDisplay.setResult(makeResultStr(analyzeAdultInfo.getIsAdultContent(), analyzeAdultInfo.getIsRacyContent()));
+        responseAzureDisplay.setResult(makeResultStr(analyzeAdultInfo.getIsAdultContent(), analyzeAdultInfo.getIsRacyContent()));
 
-        model.addAttribute("display", responseDisplay);
+        model.addAttribute("display", responseAzureDisplay);
         return model;
     }
 

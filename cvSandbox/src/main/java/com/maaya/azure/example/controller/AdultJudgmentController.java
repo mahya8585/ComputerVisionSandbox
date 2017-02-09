@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 /**
  * その写真が卑猥か否かを判定する処理
+ * <b>Azure Cognitive Service利用</b>
  * Created by 4605851 on 2017/01/31.
  */
 @Controller
