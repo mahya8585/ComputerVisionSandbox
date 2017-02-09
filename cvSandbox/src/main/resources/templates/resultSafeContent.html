@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>safe content判定</title>
+    <meta charset="utf-8"/>
+
+    <style type="text/css">
+        .displayTarget {
+            width: 35%;
+        }
+
+    </style>
+    <script type="text/javascript">
+
+        function returnIndex() {
+            document.location.href = '/cvSandbox';
+        }
+
+
+    </script>
+</head>
+<body>
+
+<h2>判定結果</h2>
+<div th:each="result : ${display.result}">
+    <h2 th:text="@{${result}}"></h2>
+</div>
+
+<article>
+    <h3>対象画像</h3>
+    <img th:attr="src=@{${display.imgUrl}}" alt="" class="displayTarget"/>
+</article>
+
+<article>
+    18禁判定：<span th:text="${display.adult}"></span>
+</article>
+
+<article>
+    偽装・なりすまし判定：<span th:text="${display.spoof}"></span>
+</article>
+
+<article>
+    医療画像判定：<span th:text="${display.medical}"></span>
+</article>
+
+<article>
+    暴力画像判定：<span th:text="${display.violence}"></span>
+</article>
+
+
+<p>
+    <button type="button" onclick="returnIndex();">再実験する</button>
+</p>
+
+</body>
+</html>
