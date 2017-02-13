@@ -1,6 +1,7 @@
 package com.maaya.azure.example.controller;
 
 import com.maaya.azure.example.form.AdultForm;
+import com.maaya.azure.example.form.SafeContentForm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +27,7 @@ public class StaticPageController {
     String index(Model model) {
         log.debug("indexページ表示");
 
+        //model.addAttribute("safeContentForm", new SafeContentForm());
         model.addAttribute("adultForm", new AdultForm());
         return "index";
     }
