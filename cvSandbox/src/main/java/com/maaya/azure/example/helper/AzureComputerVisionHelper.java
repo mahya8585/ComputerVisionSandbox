@@ -28,18 +28,18 @@ import java.util.stream.Collectors;
 @Slf4j
 public class AzureComputerVisionHelper {
 
+    //TODO 呼び出したいAPIのURL
+    private final static String ANALYZE_URL = "https://westus.api.cognitive.microsoft.com/vision/v1.0/analyze";
     @Value("${azure.computerVision.key}")
     private String API_KEY;
-    //API URL
-    private final static String ANALYZE_URL = "https://westus.api.cognitive.microsoft.com/vision/v1.0/analyze";
 
     /**
      * 画像分析する
-     * TODO 有名人判定パラメータに対応していません。判定したい場合はdetailパラメータにCelebritiesを設定してください
+     * <b>有名人判定パラメータに対応していません。判定したい場合はdetailパラメータにCelebritiesを設定してください</b>
      *
-     * @param sourceImgUrl
-     * @param lang
-     * @param visualFeatures
+     * @param sourceImgUrl   画像URL
+     * @param lang           ComputerVision API で使用できる言語コード(enumで管理しています。現在は英語と中国語のみ)
+     * @param visualFeatures ComputerVision APIで使用できるvisualFeature種別(enumで管理しています)
      * @return
      */
     public AnalyzeImage analyzeImage(String sourceImgUrl, Language lang, List<VisualFeature> visualFeatures) throws URISyntaxException, IOException {
@@ -48,18 +48,11 @@ public class AzureComputerVisionHelper {
         URIBuilder builder = new URIBuilder(ANALYZE_URL);
 
         //getパラメータ作成
-        builder.setParameter("language", createLanguageParam(lang));
-        List<String> features = visualFeatures.stream().map(vf -> createFeatureParam(vf)).collect(Collectors.toList());
-        log.debug(String.join(",", features));
-        builder.setParameter("visualFeatures", String.join(",", features).replaceAll(",,", ""));
+        builder = createGetParam(builder, lang, visualFeatures);
 
-        //有名人判定パラメータに対応していません。判定したい場合はdetailパラメータにCelebritiesを設定してください
-        //builder.setParameter("details", "Celebrities");
-
+        //リクエストヘッダの作成
         URI uri = builder.build();
-        HttpPost request = new HttpPost(uri);
-        request.setHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE);
-        request.setHeader("Ocp-Apim-Subscription-Key", API_KEY);
+        HttpPost request = createRequestHeader(uri);
 
         // Request body
         StringEntity reqEntity = new StringEntity("{\"url\":\"" + sourceImgUrl + "\"}");
@@ -79,6 +72,40 @@ public class AzureComputerVisionHelper {
     }
 
     /**
+     * ComputerVision Analyze APIのGETパラメータ作成
+     *
+     * @param builder
+     * @param lang           ComputerVision API で使用できる言語コード(enumで管理しています。現在は英語と中国語のみ)
+     * @param visualFeatures ComputerVision APIで使用できるvisualFeature種別(enumで管理しています)
+     * @return
+     */
+    private URIBuilder createGetParam(URIBuilder builder, Language lang, List<VisualFeature> visualFeatures) {
+        builder.setParameter("language", createLanguageParam(lang));
+        List<String> features = visualFeatures.stream().map(vf -> createFeatureParam(vf)).collect(Collectors.toList());
+        log.debug(String.join(",", features));
+        builder.setParameter("visualFeatures", String.join(",", features).replaceAll(",,", ""));
+
+        //有名人判定パラメータに対応していません。判定したい場合はdetailパラメータにCelebritiesを設定してください
+        //builder.setParameter("details", "Celebrities");
+
+        return builder;
+    }
+
+    /**
+     * ComputerVision Analyze API のGリクエストヘッダ作成
+     *
+     * @param uri
+     * @return
+     */
+    private HttpPost createRequestHeader(URI uri) {
+        HttpPost request = new HttpPost(uri);
+        request.setHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE);
+        request.setHeader("Ocp-Apim-Subscription-Key", API_KEY);
+
+        return request;
+    }
+
+    /**
      * 言語enumからパラメータを生成する
      *
      * @param lang
@@ -90,13 +117,13 @@ public class AzureComputerVisionHelper {
 
     /**
      * フィーチャーの設定を行う
+     * コメントアウトされている項目はレスポンスdtoの項目を増やしたら使えるようになります
      *
      * @param feature
      * @return
      * @throws Exception
      */
     private String createFeatureParam(VisualFeature feature) {
-        //TODO コメントアウトされている項目はレスポンスdtoの項目を増やしたら使えるようになります
         try {
             switch (feature) {
 //                case CATEGORIES:
@@ -122,17 +149,21 @@ public class AzureComputerVisionHelper {
         }
     }
 
+    /**
+     * 言語種別
+     */
     public enum Language {
         EN,
         ZH
     }
 
     /**
+     * VisualFeature種別
      * 追加したら createFeatureParam も追加すること
+     * コメントアウトされている項目はレスポンスdtoの項目を増やしたら使えるようになります
      */
     public enum VisualFeature {
-        //TODO コメントアウトされている項目はレスポンスdtoの項目を増やしたら使えるようになります
-//        CATEGORIES,
+        //        CATEGORIES,
 //        TAGS,
 //        DESCRIPTION,
 //        FACES,
