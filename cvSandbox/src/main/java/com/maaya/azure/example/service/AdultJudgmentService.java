@@ -114,19 +114,19 @@ public class AdultJudgmentService {
         res.setAdultScore(analyzeAdultInfo.getAdultScore());
         res.setRacyScore(analyzeAdultInfo.getRacyScore());
 
-        res.setResultImgUrl(makeResultStr(analyzeAdultInfo.getIsAdultContent(), analyzeAdultInfo.getIsRacyContent()));
+        res.setResultImgUrl(makeResultImgUrl(analyzeAdultInfo.getIsAdultContent(), analyzeAdultInfo.getIsRacyContent()));
 
         Gson gson = new Gson();
         return gson.toJson(res);
     }
 
     /**
-     * 表示する結果文言の作成
+     * 返却するイメージURLの作成
      * @param isAdult
      * @param isRacy
      * @return
      */
-    private String makeResultStr(boolean isAdult, boolean isRacy) {
+    private String makeResultImgUrl(boolean isAdult, boolean isRacy) {
         if (isAdult) {
             return responseAdultImgUrl;
 
@@ -139,12 +139,12 @@ public class AdultJudgmentService {
     }
 
     /**
-     * 返却するイメージURLの作成
+     * 表示する結果文言の作成
      * @param isAdult
      * @param isRacy
      * @return
      */
-    private String makeResultImgUrl(boolean isAdult, boolean isRacy) {
+    private String makeResultStr(boolean isAdult, boolean isRacy) {
         if (isAdult) {
             return "この画像は18禁です! 見ちゃダメ!";
 
