@@ -77,7 +77,7 @@ public class KozakeService {
      */
     public Model makeResultModel(Model model, PredictionResult predictionResult, String imgUrl) {
         KozakeDisplay display = new KozakeDisplay();
-        display.setImgUrl(imgUrl);
+        display.setImgUrl(imgUrl.replace("http:", "").replace("https:", ""));
 
         Prediction prediction = predictionResult.getPredictions().stream()
                 .filter(p -> p.getTag().equals("こざけポーズ")).collect(Collectors.toList()).get(0);
