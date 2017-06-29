@@ -54,6 +54,20 @@ public class AdultJudgmentController {
         //表示
         return display(model);
     }
+    
+    /**
+     * 各処理を発動させるための一覧ページ表示
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    String index(Model model) {
+        log.debug("indexページ表示");
+
+        model.addAttribute("adultForm", new AdultForm());
+        return "index";
+    }
 
     /**
      * 処理結果表示
