@@ -116,7 +116,7 @@ public class AzureStorageHelper {
      * @throws InvalidKeyException
      */
     private CloudStorageAccount createStorageAccount() throws URISyntaxException, InvalidKeyException {
-        return CloudStorageAccount.parse("DefaultEndpointsProtocol=http;" + "AccountName=" + ACCOUNT_NAME + ";" + "AccountKey=" + ACCOUNT_KEY);
+        return CloudStorageAccount.parse("DefaultEndpointsProtocol=https;" + "AccountName=" + ACCOUNT_NAME + ";" + "AccountKey=" + ACCOUNT_KEY);
     }
 
 }

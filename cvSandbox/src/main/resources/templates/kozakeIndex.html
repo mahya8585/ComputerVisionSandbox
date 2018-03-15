@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>その写真はこざけポーズか</title>
+    <meta charset="utf-8"/>
+</head>
+<body>
+
+<p class="function">
+<h2>画像こざけポーズ判定</h2>
+<form action="#" enctype="multipart/form-data" method="post" th:action="@{/kozake/judgment}" th:object="${kozakeForm}">
+    <div>
+        ローカル：<input type="file" name="targetFile" th:field="*{targetFile}" />
+    </div>
+    <div>
+        URL：<input type="text" name="targetUrl" th:field="*{targetUrl}" />
+    </div>
+    <input type="submit"/>
+</form>
+</p>
+
+<ul>
+    <li>画像判定はなるべくURLを使ってください。</li>
+    <li>みなさんが判定に使った画像は再学習時に利用させていただきます。</li>
+    <li>ファイルアップロードを利用する場合はファイル名をローマ字にしてください。</li>
+    <li>ばーっと作ってエラー制御とかまともにしてないので変な挙動したらごめんなさい。</li>
+    <li>お問い合わせは @maaya8585 まで</li>
+</ul>
+    
+</body>
+</html>

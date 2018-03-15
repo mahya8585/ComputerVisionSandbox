@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>判定結果</title>
+    <meta charset="utf-8"/>
+
+    <style type="text/css">
+        .displayTarget {
+            width: 35%;
+        }
+    </style>
+    <script type="text/javascript">
+
+        function returnIndex() {
+            document.location.href = '/kozake/';
+        }
+
+    </script>
+</head>
+<body>
+
+<h2>判定結果</h2>
+
+<article>
+    <h3>対象画像</h3>
+    <img th:attr="src=@{${display.imgUrl}}" alt="" class="displayTarget"/>
+</article>
+
+<article>
+    <h3>こざけポーズスコア</h3>
+    <span th:text="${display.kozakeScore}"></span>
+</article>
+
+<p>
+    <button type="button" onclick="returnIndex();">再実験する</button>
+</p>
+
+</body>
+</html>

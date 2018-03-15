@@ -1,11 +1,15 @@
 azure:
     storage:
         account:
-            name: your account name
-            key: your account key
-        container: your container name
+            name: Azure storage name
+            key: Azure storage key
+        container: Azure storage container name
     computerVision:
-        key: your computer vision key
+        key: cognitive services computer vision api key
+    customVision:
+        prediction:
+            key: Custom vision service prediction key
+            url: Custom vision service prediction url that using imageURL
 response:
     imgUrl:
         adult: image URL when it was judged an adult
